@@ -9,6 +9,5 @@ clean:
 
 install:
 	cp libdfb.so /usr/lib
-	cp libdfb.h /usr/include
 
 all: libdfb.so demo

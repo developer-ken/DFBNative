@@ -186,6 +186,10 @@ void export DrawBitmap(DisplayHandle *handle, int x1, int y1, int x2, int y2, ui
     // memcpy(handle->fbp, bitmap, handle->screensize);
 }
 
+void export DrawFullBitmap(DisplayHandle *handle, uint8_t *bitmap){
+    memcpy(handle->fbp, bitmap, handle->screensize);
+}
+
 uint32_t export GetBitsPerPixel(DisplayHandle *handle)
 {
     return handle->vinfo.bits_per_pixel;
@@ -211,7 +215,7 @@ int main()
     printf("len: %d\n", d->screensize);
     scanf("%d", &ii);
     Clear(d);
-    DrawRectangle(d, 0, 0, 1280, 720, (Color){0, 255, 0, 0}, 1);
-    DrawRectangle(d, 50, 50, 1280 - 50, 720 - 50, (Color){0, 0, 255, 0}, 1);
-    DrawRectangle(d, 100, 100, 1280 - 100, 720 - 100, (Color){0, 0, 0, 255}, 1);
+    DrawRectangle(d, 0, 0, GetWidth(d), GetHeight(d), (Color){0, 255, 0, 0}, 1);
+    DrawRectangle(d, 50, 50, GetWidth(d) - 50, GetHeight(d) - 50, (Color){0, 0, 255, 0}, 1);
+    DrawRectangle(d, 100, 100, GetWidth(d) - 100, GetHeight(d) - 100, (Color){0, 0, 0, 255}, 1);
 }
