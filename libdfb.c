@@ -50,8 +50,8 @@ DisplayHandle *export Open(const char *device)
 
     if (handle->vinfo.nonstd != 0)
     {
-        printf("Error: Non std pixformat detected.\n");
-        return 0;
+        printf("Warning: Non std pixformat detected.\n");
+        //return 0;
     }
 
     handle->screensize = handle->vinfo.xres * handle->vinfo.yres * handle->vinfo.bits_per_pixel / 8;
@@ -86,28 +86,28 @@ void export DrawPixel(DisplayHandle *handle, int x, int y, Color color)
     }
     switch (handle->vinfo.bits_per_pixel)
     {
-    case 8:
+    case 8:;
         *(uint8_t *)(handle->fbp + offset++) = color.r;
         break;
-    case 16:
+    case 16:;
         uint16_t pixel = (color.r << 11) | (color.g << 5) | color.b;
         uint8_t *pixel8 = (uint8_t *)pixel;
         *(uint8_t *)(handle->fbp + offset++) = pixel8[0];
         *(uint8_t *)(handle->fbp + offset++) = pixel8[1];
         *(uint8_t *)(handle->fbp + offset++) = pixel8[2];
         break;
-    case 24:
+    case 24:;
         *(uint8_t *)(handle->fbp + offset++) = color.b;
         *(uint8_t *)(handle->fbp + offset++) = color.g;
         *(uint8_t *)(handle->fbp + offset++) = color.r;
         break;
-    case 32:
+    case 32:;
         *(uint8_t *)(handle->fbp + offset++) = color.b;
         *(uint8_t *)(handle->fbp + offset++) = color.g;
         *(uint8_t *)(handle->fbp + offset++) = color.r;
         *(uint8_t *)(handle->fbp + offset++) = color.a;
         break;
-    default:
+    default:;
         fprintf(stderr, "Unsupported pixel format\n");
         break;
     }
@@ -213,6 +213,9 @@ int main()
     printf("height: %d\n", GetHeight(d));
     printf("bits per pixel: %d\n", GetBitsPerPixel(d));
     printf("len: %d\n", d->screensize);
+    printf("l-len: %d\n", d->line_length);
+    printf("x-offset: %d\n", d->vinfo.xoffset);
+    printf("y-offset: %d\n", d->vinfo.yoffset);
     scanf("%d", &ii);
     Clear(d);
     DrawRectangle(d, 0, 0, GetWidth(d), GetHeight(d), (Color){0, 255, 0, 0}, 1);
